@@ -1,22 +1,11 @@
-// VARIABLES ----------->
-console.log("client-service--test");
-const http = new XMLHttpRequest();
-// abrir http (método, url)
-
-/* CRUD - MÉTODOS HTTP 
-CREATE  - POST
-READ    - GET
-UPDATE  - PUT/PATCH
-DELETE  - DELETE
-*/
-
 // FUNCION CREAR NUEVA LINEA USUARIO
-const crearNuevaLinea = () => {
-  <tr>
-    <td class="td" data-td>
-      Gabriela
+const crearNuevaLinea = (nombre, email) => {
+  const linea = document.createElement("tr");
+  const contenido = `<tr>
+  <td class="td" data-td>
+      ${nombre}
     </td>
-    <td>gabriela@alura.com</td>
+    <td>${email}</td>
     <td>
       <ul class="table__button-control">
         <li>
@@ -30,19 +19,60 @@ const crearNuevaLinea = () => {
         <li>
           <button class="simple-button simple-button--delete" type="button">
             Eliminar
-          </button>
+            </button>
         </li>
       </ul>
-    </td>
-  </tr>;
+      </td>
+  </tr>`;
+  linea.innerHTML = contenido;
+  return linea;
 };
 
-// FUNCION GET SEND ------------>
-http.open("GET", "http://localhost:3000/perfil");
-http.send();
-http.onload = () => {
-  const data = http.response;
-  console.log(data);
-};
+// VARIABLES ----------->
+const table = document.querySelector("[data-table]");
+// abrir http (método, url)
 
-console.log(http);
+/* CRUD - MÉTODOS HTTP 
+CREATE  - POST
+READ    - GET
+UPDATE  - PUT/PATCH
+DELETE  - DELETE
+*/
+
+// PROMISE -function GET SEND ONLOAD ----------->
+// Fecth API ---------->
+const listaClientes = () =>
+  fetch("http://localhost:3000/perfil").then((respuesta) => respuesta.json());
+
+// INTENTO 01 --------->
+//   const promise = new Promise((resolve, reject) => {
+//     const http = new XMLHttpRequest();
+//     http.open("GET", "http://localhost:3000/perfil");
+//     http.send();
+//     http.onload = () => {
+//       const response = JSON.parse(http.response);
+//       if(http.status >= 400) /* Errores de los clientes (400–499) */ {
+//           reject(response);
+//         } else {
+//             resolve(response);
+//             console.log(http.status);
+//       }
+//     };
+//   });
+//   return promise;
+
+// INTENTO 02 --------->
+// return fetch("http://localhost:3000/perfil").then( respuesta => {
+//     return respuesta.json()
+// })
+
+// LO QUE SALE DE PROMISE SE CONVIERTE EN 'DATA' ---------->
+listaClientes()
+  .then((data) => {
+    data.forEach((perfil) => {
+      const nuevaLinea = crearNuevaLinea(perfil.nombre, perfil.email);
+      table.appendChild(nuevaLinea);
+      console.log(data);
+    });
+  })
+  .catch((error) => alert("error detectado. skynet activado."));
