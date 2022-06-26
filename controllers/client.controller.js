@@ -1,12 +1,11 @@
-import {
-    clientServices
-} from "../service/client-service.js"
+import { clientServices } from "../service/client-service.js";
 console.log(clientServices);
 
 // FUNCION CREAR NUEVA LINEA USUARIO
-const crearNuevaLinea = (nombre, email) => {
-    const linea = document.createElement("tr");
-    const contenido = `<tr>
+const crearNuevaLinea = (nombre, email, id) => {
+  console.log(id);
+  const linea = document.createElement("tr");
+  const contenido = `<tr>
     <td class="td" data-td>
         ${nombre}
       </td>
@@ -22,28 +21,36 @@ const crearNuevaLinea = (nombre, email) => {
             </a>
           </li>
           <li>
-            <button class="simple-button simple-button--delete" type="button">
+            <button class="simple-button simple-button--delete" type="button" id="${id}">
               Eliminar
               </button>
           </li>
         </ul>
         </td>
     </tr>`;
-    linea.innerHTML = contenido;
-    return linea;
-  };
-  
-  // VARIABLES ----------->
-  const table = document.querySelector("[data-table]");
+  linea.innerHTML = contenido;
+  const btn = linea.querySelector("button");
+  btn.addEventListener("click", () => {
+    const id = btn.id;
+    console.log("click delete on: ", id);
+  });
 
-  clientServices
+  return linea;
+};
+
+// VARIABLES ----------->
+const table = document.querySelector("[data-table]");
+
+clientServices
   .listaClientes()
   .then((data) => {
-    data.forEach((perfil) => {
-      const nuevaLinea = crearNuevaLinea(perfil.nombre, perfil.email);
+    data.forEach(({ nombre, email, id }) => {
+      const nuevaLinea = crearNuevaLinea(nombre, email, id);
       table.appendChild(nuevaLinea);
     });
   })
   .catch((error) => alert("error detectado. skynet activado."));
 
-  
+const eliminarCliente = (id) => {
+  console.log("delete: ", id);
+};
