@@ -32,9 +32,8 @@ const crearNuevaLinea = (nombre, email, id) => {
     const id = btn.id;
     console.log("click delete on: ", id);
     clientServices.eliminarCliente(id).then(respuesta => {
-    }).catch(err => alert("error detected"))
+    }).catch(err => alert("error detected."))
   });
-
   return linea;
 };
 
@@ -49,5 +48,5 @@ clientServices
       table.appendChild(nuevaLinea);
     });
   })
-  .catch((error) => alert("error detectado. skynet activado."));
+  .catch((error) => alert("error detectado. SKYNET activado."));
 
