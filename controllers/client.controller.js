@@ -1,9 +1,7 @@
 import { clientServices } from "../service/client-service.js";
-console.log(clientServices);
 
 // FUNCION CREAR NUEVA LINEA USUARIO
 const crearNuevaLinea = (nombre, email, id) => {
-  console.log(id);
   const linea = document.createElement("tr");
   const contenido = `<tr>
     <td class="td" data-td>
@@ -33,6 +31,8 @@ const crearNuevaLinea = (nombre, email, id) => {
   btn.addEventListener("click", () => {
     const id = btn.id;
     console.log("click delete on: ", id);
+    clientServices.eliminarCliente(id).then(respuesta => {
+    }).catch(err => alert("error detected"))
   });
 
   return linea;
@@ -51,6 +51,3 @@ clientServices
   })
   .catch((error) => alert("error detectado. skynet activado."));
 
-const eliminarCliente = (id) => {
-  console.log("delete: ", id);
-};
