@@ -35,7 +35,8 @@ const actualizarCliente = (nombre, email, id) => {
     },
     body: JSON.stringify({ nombre, email })
   })
-  .then((respuesta) => respuesta).catch((err) => console.log(err));
+  .then((respuesta) => respuesta)
+  .catch((err) => console.log(err));
 };
 
 export const clientServices = {
